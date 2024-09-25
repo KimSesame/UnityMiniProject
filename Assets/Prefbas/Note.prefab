@@ -91,8 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c19490ab610023240a7e8494be921e56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noteLayer: 6
-  noteReceiverLayer: 7
+  noteLayer: 7
+  noteReceiverLayer: 6
   isRight: 0
   speed: 100
 --- !u!61 &-675113428586088811

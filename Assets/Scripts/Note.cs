@@ -7,14 +7,20 @@ using UnityEngine.Events;
 public class Note : MonoBehaviour
 {
     [Header("Target Layer")]
-    [SerializeField] int noteLayer;
     [SerializeField] int noteReceiverLayer;
+    [SerializeField] int noteLayer;
 
     [Header("Attributes")]
     [SerializeField] bool isRight;
     [SerializeField] float speed;
 
     public bool IsRight { set { isRight = value; } }
+
+    private void Awake()
+    {
+        noteReceiverLayer = LayerMask.NameToLayer("Note Receiver");
+        noteLayer = LayerMask.NameToLayer("Note");
+    }
 
     private void Update()
     {

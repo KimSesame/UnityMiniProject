@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Note : MonoBehaviour
 {
-    public bool isRight;
+    [Header("Target Layer")]
+    [SerializeField] int noteLayer;
+    [SerializeField] int noteReceiverLayer;
 
+    [Header("Attributes")]
+    [SerializeField] bool isRight;
     [SerializeField] float speed;
 
     public bool IsRight { set { isRight = value; } }
@@ -13,6 +19,25 @@ public class Note : MonoBehaviour
     private void Update()
     {
         Move();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Beginning of valid input range
+        if (collision.gameObject.layer == noteReceiverLayer)
+        {
+            InputManager.Instance.IsValid = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        // End of valid input range
+        if (collision.gameObject.layer == noteLayer)
+        {
+            InputManager.Instance.IsValid = false;
+            Destroy(gameObject);
+        }
     }
 
     private void Move()

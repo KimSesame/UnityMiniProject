@@ -29,6 +29,9 @@ public class Note : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // Handle only right notes
+        if (!isRight) return;
+
         // Beginning of valid input range
         if (collision.gameObject.layer == noteReceiverLayer)
         {
@@ -38,10 +41,14 @@ public class Note : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        // Handle only right notes
+        if (!isRight) return;
+
         // End of valid input range
         if (collision.gameObject.layer == noteLayer)
         {
             InputManager.Instance.IsValid = false;
+            Destroy(collision.gameObject);
             Destroy(gameObject);
         }
     }

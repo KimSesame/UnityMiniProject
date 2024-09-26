@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerController : MonoBehaviour
 {
@@ -53,6 +54,18 @@ public class PlayerController : MonoBehaviour
         }
         else
             return;
+
+        // Monster exists
+        Collider2D collider = Physics2D.OverlapCircle(transform.position + movement, 0.2f);
+        Monster monster = collider?.GetComponent<Monster>();
+        if (monster != null)
+        {
+            monster.Attack();
+
+            // Ignore next inputs in same valid timing
+            InputManager.Instance.IsValid = false;
+            return;
+        }
 
         // Move
         transform.position = transform.position + movement;

@@ -30,4 +30,6 @@ public abstract class Monster : MonoBehaviour
     }
 
     public abstract void Behave();
+    public abstract void Move();
+    public abstract void Attack();
 }

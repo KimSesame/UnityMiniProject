@@ -6,6 +6,7 @@ public abstract class Monster : MonoBehaviour
 {
     [SerializeField] protected GameObject target;
     [SerializeField] protected int hp;
+    [SerializeField] protected int dmg;
     [SerializeField] protected int period;
     [SerializeField] protected int[] dx;
     [SerializeField] protected int[] dy;
@@ -30,6 +31,19 @@ public abstract class Monster : MonoBehaviour
     }
 
     public abstract void Behave();
-    public abstract void Move();
-    public abstract void Attack();
+
+    public virtual void Move()
+    {
+        transform.position += cellSize * new Vector3(dx[d_i], dy[d_i]);
+        d_i = (d_i + 1) % dx.Length;
+    }
+
+    public virtual void Attack()
+    {
+        PlayerController player = target.GetComponent<PlayerController>();
+        if (player != null)
+        {
+            player.TakeDamage(dmg);
+        }
+    }
 }

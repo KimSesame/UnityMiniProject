@@ -30,15 +30,4 @@ public class Slime : Monster
 
         return false;
     }
-
-    public override void Move()
-    {
-        transform.position += cellSize * new Vector3(dx[d_i], dy[d_i]);
-        d_i = (d_i + 1) % dx.Length;
-    }
-
-    public override void Attack()
-    {
-        Debug.Log("Slime Attack!");
-    }
 }

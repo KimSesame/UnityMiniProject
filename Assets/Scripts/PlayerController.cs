@@ -6,6 +6,8 @@ using static UnityEditor.PlayerSettings;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] GameObject face;
+    [SerializeField] int maxHp = 10;
+    [SerializeField] int curHp;
 
     private SpriteRenderer spRenderer;
     private SpriteRenderer faceSpRenderer;
@@ -16,6 +18,7 @@ public class PlayerController : MonoBehaviour
         spRenderer = GetComponent<SpriteRenderer>();
         faceSpRenderer = face.GetComponent<SpriteRenderer>();
         cellSize = GameManager.Instance.map.cellSize.x;
+        curHp = maxHp;
     }
 
     private void Update()
@@ -72,5 +75,19 @@ public class PlayerController : MonoBehaviour
 
         // Ignore next inputs in same valid timing
         InputManager.Instance.IsValid = false;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        curHp -= damage;
+        if (curHp <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        Destroy(gameObject);
     }
 }

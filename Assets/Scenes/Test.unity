@@ -594,6 +594,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   hp: 1
+  dmg: 0
   period: 0
   dx: 
   dy: 
@@ -2428,6 +2429,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   hp: 2
+  dmg: 1
   period: 2
   dx: 
   dy: 
@@ -2488,6 +2490,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   face: {fileID: 491179862}
+  maxHp: 10
+  curHp: 0
 --- !u!212 &2110801867
 SpriteRenderer:
   m_ObjectHideFlags: 0

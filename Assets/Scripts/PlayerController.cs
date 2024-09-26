@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] Grid map;
     [SerializeField] GameObject face;
 
     private SpriteRenderer spRenderer;
@@ -15,7 +14,7 @@ public class PlayerController : MonoBehaviour
     {
         spRenderer = GetComponent<SpriteRenderer>();
         faceSpRenderer = face.GetComponent<SpriteRenderer>();
-        cellSize = map.cellSize.x;
+        cellSize = GameManager.Instance.map.cellSize.x;
     }
 
     private void Update()

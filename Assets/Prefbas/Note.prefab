@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -1022752216366363668}
   - component: {fileID: -675113428586088811}
   - component: {fileID: 6686182764024238243}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Note
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,8 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c19490ab610023240a7e8494be921e56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noteLayer: 7
-  noteReceiverLayer: 6
+  noteLayer: 0
   isRight: 0
   speed: 100
 --- !u!61 &-675113428586088811

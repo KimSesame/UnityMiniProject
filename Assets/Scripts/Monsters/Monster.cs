@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Monster : MonoBehaviour
+public abstract class Monster : MonoBehaviour, IBeatListener
 {
     [SerializeField] protected GameObject target;
     [SerializeField] protected int hp;
@@ -17,7 +17,7 @@ public abstract class Monster : MonoBehaviour
 
     private void Start()
     {
-        InputManager.OnTurnEnd += Behave;
+        GameManager.OnBeatAlarm += OnBeat;
 
         target = GameObject.FindGameObjectWithTag("Player");
         cellSize = GameManager.Instance.map.cellSize.x;
@@ -27,10 +27,10 @@ public abstract class Monster : MonoBehaviour
 
     private void OnDestroy()
     {
-        InputManager.OnTurnEnd -= Behave;
+        GameManager.OnBeatAlarm -= OnBeat;
     }
 
-    public abstract void Behave();
+    public abstract void OnBeat();
 
     public virtual void Move()
     {

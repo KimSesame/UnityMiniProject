@@ -12,7 +12,7 @@ public class InputManager : MonoBehaviour
 
     [SerializeField] bool isValid;
 
-    public bool IsValid { get { return isValid; } set { isValid = value; if (value) OnTurnEnd?.Invoke(); } }
+    public bool IsValid { get { return isValid; } set { isValid = value; if (!value) OnTurnEnd?.Invoke(); } }
     
     private void Awake()
     {

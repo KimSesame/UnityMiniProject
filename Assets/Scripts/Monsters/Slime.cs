@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Slime : Monster
 {
-    public override void Behave()
+    public override void OnBeat()
     {
         // Work periodically
         if (!InPeriod()) return;

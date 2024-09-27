@@ -7,7 +7,6 @@ using UnityEngine.Events;
 public class Note : MonoBehaviour
 {
     [Header("Target Layer")]
-    [SerializeField] int noteReceiverLayer;
     [SerializeField] int noteLayer;
 
     [Header("Attributes")]
@@ -18,25 +17,12 @@ public class Note : MonoBehaviour
 
     private void Awake()
     {
-        noteReceiverLayer = LayerMask.NameToLayer("Note Receiver");
         noteLayer = LayerMask.NameToLayer("Note");
     }
 
     private void Update()
     {
         Move();
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        // Handle only right notes
-        if (!isRight) return;
-
-        // Beginning of valid input range
-        if (collision.gameObject.layer == noteReceiverLayer)
-        {
-            InputManager.Instance.IsValid = true;
-        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -47,7 +33,6 @@ public class Note : MonoBehaviour
         // End of valid input range
         if (collision.gameObject.layer == noteLayer)
         {
-            InputManager.Instance.IsValid = false;
             Destroy(collision.gameObject);
             Destroy(gameObject);
         }

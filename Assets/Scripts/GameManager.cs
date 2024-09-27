@@ -7,9 +7,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public static UnityAction OnBeatAlarm;
-
     public Grid map;
+    public MonsterContatiner[] monsters = { new(), new() };
+    public int bufferIdx;
     public float bpm;
     public float beatSlack;
 
@@ -28,6 +28,24 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        Init();
+    }
+
+    private void Update()
+    {
+        AlarmBeat();
+    }
+
+    private void OnDestroy()
+    {
+        InputManager.OnTurnEnd -= BehaveMonster;
+    }
+
+    private void Init()
+    {
+        InputManager.OnTurnEnd += BehaveMonster;
+
+        bufferIdx = 0;
         bpm = 60f;
         beatSlack = 0.3f;
 
@@ -35,7 +53,7 @@ public class GameManager : MonoBehaviour
         timer = beatInterval;
     }
 
-    private void Update()
+    private void AlarmBeat()
     {
         timer -= Time.deltaTime;
 
@@ -44,19 +62,32 @@ public class GameManager : MonoBehaviour
         {
             InputManager.Instance.IsValid = true;
         }
-
-        // Beat
-        if (timer <= 0f)
-        {
-            OnBeatAlarm?.Invoke();
-            timer = beatInterval;
-        }
-
         // End point of player's valid input range
-        if (timer <= beatInterval - beatSlack)
+        else if (timer <= beatInterval - beatSlack)
         {
             if (InputManager.Instance.IsValid != false)
                 InputManager.Instance.IsValid = false;
         }
+
+        // Beat
+        if (timer <= 0f)
+        {
+            timer += beatInterval;
+        }
+    }
+
+    private void BehaveMonster()
+    {
+        Debug.Log($"Buffer {bufferIdx} Count: {monsters[bufferIdx].Count}");
+        // Monster with high priority behaves faster
+        while (monsters[bufferIdx].Count > 0)
+        {
+            Monster curMonster = monsters[bufferIdx].ExtractMax();
+            // Behave
+            curMonster.OnBeat();
+            // Move to the other buffer
+            monsters[bufferIdx ^ 1].Insert(curMonster);
+        }
+        bufferIdx ^= 1; // toggle buffer
     }
 }

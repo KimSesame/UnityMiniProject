@@ -74,7 +74,8 @@ public class PlayerController : MonoBehaviour
         transform.position = transform.position + movement;
 
         // Ignore next inputs in same valid timing
-        InputManager.Instance.IsValid = false;
+        if (InputManager.Instance.IsValid != false)
+            InputManager.Instance.IsValid = false;
     }
 
     public void TakeDamage(int damage)

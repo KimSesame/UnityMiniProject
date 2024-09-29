@@ -60,13 +60,15 @@ public class GameManager : MonoBehaviour
         // Start point of player's valid input range
         if (timer <= beatSlack)
         {
-            InputManager.Instance.IsValid = true;
+            if (!InputManager.Instance.IsInput)
+                InputManager.Instance.IsValid = true;
         }
         // End point of player's valid input range
         else if (timer <= beatInterval - beatSlack)
         {
             if (InputManager.Instance.IsValid != false)
                 InputManager.Instance.IsValid = false;
+            InputManager.Instance.IsInput = false;
         }
 
         // Beat

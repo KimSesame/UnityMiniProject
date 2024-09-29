@@ -58,6 +58,8 @@ public class PlayerController : MonoBehaviour
         else
             return;
 
+        InputManager.Instance.IsInput = true;
+
         // Monster exists
         Collider2D collider = Physics2D.OverlapCircle(transform.position + movement, 0.2f);
         Monster monster = collider?.GetComponent<Monster>();

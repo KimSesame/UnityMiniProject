@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour
     public int bufferIdx;
     public float bpm;
     public float beatSlack;
+    public float beatInterval;
 
-    private float beatInterval;
     private float timer;
 
     private void Awake()
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
 
         bufferIdx = 0;
         bpm = 60f;
-        beatSlack = 0.3f;
+        beatSlack = 0.2f;
 
         beatInterval = 60f / bpm;
         timer = beatInterval;
@@ -80,7 +80,6 @@ public class GameManager : MonoBehaviour
 
     private void BehaveMonster()
     {
-        Debug.Log($"Buffer {bufferIdx} Count: {monsters[bufferIdx].Count}");
         // Monster with high priority behaves faster
         while (monsters[bufferIdx].Count > 0)
         {

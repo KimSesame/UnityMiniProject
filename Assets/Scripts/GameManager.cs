@@ -5,9 +5,17 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
+    public enum BGMName
+    {
+        DiscoDescent, Crypteque, MausoleumMash, SIZE
+    }
+
     public static GameManager Instance { get; private set; }
 
     public Grid map;
+    public AudioSource audioSource;
+    public AudioClip[] bgms;
+    public int[] bpms;
     public MonsterContatiner[] monsters = { new(), new() };
     public int bufferIdx;
     public float bpm;
@@ -45,11 +53,20 @@ public class GameManager : MonoBehaviour
     {
         InputManager.OnTurnEnd += BehaveMonster;
 
-        bufferIdx = 0;
-        bpm = 60f;
-        beatSlack = 0.2f;
+        PlayBGM(BGMName.DiscoDescent);
 
+        bufferIdx = 0;
+    }
+
+    private void PlayBGM(BGMName bgmName)
+    {
+        audioSource.clip = bgms[(int)bgmName];
+        audioSource.Play();
+
+        bpm = bpms[(int)bgmName];
+        beatSlack = 0.1f;
         beatInterval = 60f / bpm;
+
         timer = beatInterval;
     }
 

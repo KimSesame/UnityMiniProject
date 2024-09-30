@@ -9,7 +9,7 @@ public class NoteSender : MonoBehaviour
     [SerializeField] bool isRight;
     [SerializeField] float delay;
 
-    private void Awake()
+    private void Start()
     {
         // Start note sending coroutine
         sendCoroutine = StartCoroutine(SendRoutine());
@@ -33,7 +33,7 @@ public class NoteSender : MonoBehaviour
         while (true)
         {
             Send();
-            yield return new WaitForSeconds(delay);
+            yield return new WaitForSeconds(GameManager.Instance.beatInterval);
         }
     }
 }

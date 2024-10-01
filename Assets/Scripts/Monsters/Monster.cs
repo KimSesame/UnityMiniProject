@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Monster : MonoBehaviour, IBeatListener, IComparable<Monster>
+public abstract class Monster : MonoBehaviour, IBeatListener, IInteractor, IComparable<Monster>
 {
     [SerializeField] protected GameObject target;
     [SerializeField] protected int hp;
@@ -34,6 +34,7 @@ public abstract class Monster : MonoBehaviour, IBeatListener, IComparable<Monste
     }
 
     public abstract void OnBeat();
+    public void Interaction() => TakeDamage();
 
     public int CompareTo(Monster other)
     {
@@ -41,24 +42,47 @@ public abstract class Monster : MonoBehaviour, IBeatListener, IComparable<Monste
         return this.priority.CompareTo(other.priority);
     }
 
-    public virtual void Move()
+    protected void Move()
     {
         Vector3 movement = cellSize * new Vector3(dx[d_i], dy[d_i]);
-        Collider2D collider = Physics2D.OverlapCircle(transform.position + movement, 0.2f);
+        Vector3 targetPos = transform.position + movement;
+        Collider2D collider = Physics2D.OverlapCircle(targetPos, 0.3f);
+
         // Tile occupied
         if (collider != null)
+        {
+            // Attack if player
+            if (collider.gameObject.Equals(target))
+                Attack();
             return;
+        }
 
-        transform.position += movement;
+        // Empty tile
+        transform.position = targetPos;
         d_i = (d_i + 1) % dx.Length;
     }
 
-    public virtual void Attack()
+    protected void Attack()
     {
+        Debug.Log($"{gameObject.name} Attack!");
         PlayerController player = target.GetComponent<PlayerController>();
         if (player != null)
         {
             player.TakeDamage(dmg);
         }
+    }
+
+    private void TakeDamage()
+    {
+        hp -= target.GetComponent<PlayerController>().Damage;
+        if (hp <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        Destroy(gameObject);
     }
 }

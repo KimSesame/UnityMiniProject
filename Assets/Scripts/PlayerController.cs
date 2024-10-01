@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] int maxHp = 10;
     [SerializeField] int curHp;
+    [SerializeField] int damage;
 
     private Animator animator;
 
@@ -17,6 +18,8 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer bodySpRenderer;
     private SpriteRenderer faceSpRenderer;
     private float cellSize;
+
+    public int Damage { get { return damage; } }
 
     private void Awake()
     {
@@ -79,20 +82,19 @@ public class PlayerController : MonoBehaviour
 
         InputManager.Instance.IsInput = true;
 
-        // Monster exists
+        // Occupied tile
         Collider2D collider = Physics2D.OverlapCircle(transform.position + movement, 0.2f);
-        Monster monster = collider?.GetComponent<Monster>();
-        if (monster != null)
+        if (collider != null)
         {
-            monster.Attack();
-
-            // Ignore next inputs in same valid timing
-            InputManager.Instance.IsValid = false;
-            return;
+            // Interaction
+            collider.gameObject.GetComponent<IInteractor>().Interaction();
         }
-
-        // Jump to move
-        StartCoroutine(JumpRoutine(movement));
+        // Empty tile
+        else
+        {
+            // Jump to move
+            StartCoroutine(JumpRoutine(movement));
+        }
 
         // Ignore next inputs in same valid timing
         if (InputManager.Instance.IsValid != false)

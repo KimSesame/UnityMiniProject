@@ -11,11 +11,20 @@ public abstract class Monster : MonoBehaviour, IBeatListener, IInteractor, IComp
     }
 
     [SerializeField] protected GameObject target;
-    [SerializeField] AudioClip[] sfxs;
+    [SerializeField] protected AudioClip[] sfxs;
+
+    [Header("Attributes")]
     [SerializeField] protected int hp;
     [SerializeField] protected int dmg;
     [SerializeField] protected int period;
     [SerializeField] protected int priority;
+
+    [Header("Coin")]
+    [SerializeField] protected Coin coinPrefab;
+    [SerializeField] protected int minCoin;
+    [SerializeField] protected int maxCoin;
+
+    [Header("Movement Pattern")]
     [SerializeField] protected int[] dx;
     [SerializeField] protected int[] dy;
     [SerializeField] protected int d_i;
@@ -27,6 +36,14 @@ public abstract class Monster : MonoBehaviour, IBeatListener, IInteractor, IComp
     protected AudioSource audioSource;
     protected SpriteRenderer vfx;
     protected float effectTime;
+
+    protected virtual void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        vfx = transform.GetChild(0).GetComponent<SpriteRenderer>();
+
+        effectTime = 0.1f;
+    }
 
     private void Start()
     {
@@ -107,6 +124,10 @@ public abstract class Monster : MonoBehaviour, IBeatListener, IInteractor, IComp
     private void Die()
     {
         dieCoroutine = StartCoroutine(DieRoutine());
+
+        // Drop coins
+        Coin newCoin = Instantiate(coinPrefab, transform.position, Quaternion.identity);
+        newCoin.Amount = UnityEngine.Random.Range(minCoin, maxCoin + 1);
     }
 
     Coroutine dieCoroutine;

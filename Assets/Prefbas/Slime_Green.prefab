@@ -193,6 +193,9 @@ MonoBehaviour:
   dmg: 0
   period: 0
   priority: 0
+  coinPrefab: {fileID: 542596752245670580, guid: 9aa6d3f12c77fff4582a069b7be667bf, type: 3}
+  minCoin: 1
+  maxCoin: 5
   dx: 
   dy: 
   d_i: 0

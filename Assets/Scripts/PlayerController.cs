@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int maxHp = 10;
     [SerializeField] int curHp;
     [SerializeField] int damage;
+    [SerializeField] LayerMask layerMask;
     [SerializeField] AudioClip[] sfxs;
 
     private AudioSource audioSource;
@@ -93,7 +94,7 @@ public class PlayerController : MonoBehaviour
         InputManager.Instance.IsInput = true;
 
         // Occupied tile
-        Collider2D collider = Physics2D.OverlapCircle(transform.position + movement, 0.2f);
+        Collider2D collider = Physics2D.OverlapCircle(transform.position + movement, 0.2f, layerMask);
         if (collider != null)
         {
             GameObject target = collider.gameObject;

@@ -17,8 +17,9 @@ public class GameManager : MonoBehaviour
     public CoinModel coinModel;
     public AudioSource audioSource;
     public AudioClip[] bgms;
-    public int[] bpms;
     public MonsterContatiner[] monsters = { new(), new() };
+    public NoteReceiver noteReceiver;
+    public int[] bpms;
     public int bufferIdx;
     public float bpm;
     public float beatSlack;
@@ -95,6 +96,7 @@ public class GameManager : MonoBehaviour
         if (timer <= 0f)
         {
             timer += beatInterval;
+            noteReceiver.OnBeat();
         }
     }
 

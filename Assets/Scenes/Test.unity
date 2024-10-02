@@ -2210,6 +2210,7 @@ GameObject:
   - component: {fileID: 1722606652}
   - component: {fileID: 1722606654}
   - component: {fileID: 1722606653}
+  - component: {fileID: 1722606655}
   m_Layer: 6
   m_Name: Note Receiver
   m_TagString: Untagged
@@ -2275,6 +2276,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1722606651}
   m_CullTransparentMesh: 1
+--- !u!114 &1722606655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722606651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21be778cb442bb14a9f575d8a6852a53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heartSprites:
+  - {fileID: 285230670, guid: 66aa705238b0c064985f427dd90ec048, type: 3}
+  - {fileID: -965555392, guid: 66aa705238b0c064985f427dd90ec048, type: 3}
 --- !u!1 &1751349350
 GameObject:
   m_ObjectHideFlags: 0
@@ -4030,6 +4046,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d53e23b1317a2b04fa9576e6e23013ef, type: 3}
   - {fileID: 8300000, guid: 7fe72a87a588c44418c5ba66a01eb9d6, type: 3}
   - {fileID: 8300000, guid: a98a87ccd2a6fb448af3f1f9c698cbc9, type: 3}
+  noteReceiver: {fileID: 1722606655}
   bpms: 73000000820000008c000000
   bufferIdx: 0
   bpm: 0

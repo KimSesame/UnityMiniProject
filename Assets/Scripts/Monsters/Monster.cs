@@ -5,7 +5,13 @@ using UnityEngine;
 
 public abstract class Monster : MonoBehaviour, IBeatListener, IInteractor, IComparable<Monster>
 {
+    public enum SFXName
+    {
+        Attack, Hit, Die, SIZE
+    }
+
     [SerializeField] protected GameObject target;
+    [SerializeField] AudioClip[] sfxs;
     [SerializeField] protected int hp;
     [SerializeField] protected int dmg;
     [SerializeField] protected int period;
@@ -67,10 +73,11 @@ public abstract class Monster : MonoBehaviour, IBeatListener, IInteractor, IComp
 
     protected void Attack()
     {
-        Debug.Log($"{gameObject.name} Attack!");
         PlayerController player = target.GetComponent<PlayerController>();
         if (player != null)
         {
+            audioSource.clip = sfxs[(int)SFXName.Attack];
+            audioSource.Play();
             player.TakeDamage(dmg);
         }
     }
@@ -89,6 +96,7 @@ public abstract class Monster : MonoBehaviour, IBeatListener, IInteractor, IComp
     {
         // Effects
         vfx.gameObject.SetActive(true);
+        audioSource.clip = sfxs[(int)SFXName.Hit];
         audioSource.Play();
         yield return new WaitForSeconds(effectTime);
         vfx.gameObject.SetActive(false);
@@ -98,6 +106,18 @@ public abstract class Monster : MonoBehaviour, IBeatListener, IInteractor, IComp
 
     private void Die()
     {
+        dieCoroutine = StartCoroutine(DieRoutine());
+    }
+
+    Coroutine dieCoroutine;
+    IEnumerator DieRoutine()
+    {
+        // Effects
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        audioSource.clip = sfxs[(int)SFXName.Die];
+        audioSource.Play();
+        yield return new WaitForSeconds(0.5f);
+
         Destroy(gameObject);
     }
 }

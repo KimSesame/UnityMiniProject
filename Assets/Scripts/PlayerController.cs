@@ -7,11 +7,19 @@ using static UnityEngine.GraphicsBuffer;
 
 public class PlayerController : MonoBehaviour
 {
+    public enum SFXName
+    {
+        Hit, Die, SIZE
+    }
+
     [SerializeField] int maxHp = 10;
     [SerializeField] int curHp;
     [SerializeField] int damage;
+    [SerializeField] AudioClip[] sfxs;
 
     private AudioSource audioSource;
+    private SpriteRenderer vfx;
+    private float effectTime;
     private GameObject gfx;
     private GameObject body;
     private GameObject face;
@@ -24,7 +32,9 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        vfx = transform.GetChild(1).GetComponent<SpriteRenderer>();
 
+        effectTime = 0.2f;
         curHp = maxHp;
     }
 
@@ -45,8 +55,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (jumpCoroutine != null)
-            StopCoroutine(jumpCoroutine);
+        StopAllCoroutines();
     }
 
     private void Move()
@@ -134,13 +143,24 @@ public class PlayerController : MonoBehaviour
 
     public void Attack(Monster target)
     {
-        audioSource.Play();
-
         target.TakeDamage();
     }
 
     public void TakeDamage(int damage)
     {
+        takeDamageCoroutine = StartCoroutine(TakeDamageRoutine());
+    }
+
+    Coroutine takeDamageCoroutine;
+    IEnumerator TakeDamageRoutine()
+    {
+        // Effects
+        vfx.gameObject.SetActive(true);
+        audioSource.clip = sfxs[(int)SFXName.Hit];
+        audioSource.Play();
+        yield return new WaitForSeconds(effectTime);
+        vfx.gameObject.SetActive(false);
+
         curHp -= damage;
         if (curHp <= 0)
         {
@@ -150,6 +170,18 @@ public class PlayerController : MonoBehaviour
 
     private void Die()
     {
+        dieCoroutine = StartCoroutine(DieRoutine());
+    }
+
+    Coroutine dieCoroutine;
+    IEnumerator DieRoutine()
+    {
+        // Effects
+        gfx.gameObject.SetActive(false);
+        audioSource.clip = sfxs[(int)SFXName.Die];
+        audioSource.Play();
+        yield return new WaitForSeconds(0.5f);
+
         Destroy(gameObject);
     }
 }

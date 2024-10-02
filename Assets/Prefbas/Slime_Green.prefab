@@ -185,6 +185,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  sfxs:
+  - {fileID: 8300000, guid: 28cb985f17dc77b499fef17385ca4c17, type: 3}
+  - {fileID: 8300000, guid: 7fd92a3ee8f582b46b045993c193cd2d, type: 3}
+  - {fileID: 8300000, guid: 0927302c4c23d894b83705b0159f4e1c, type: 3}
   hp: 1
   dmg: 0
   period: 0

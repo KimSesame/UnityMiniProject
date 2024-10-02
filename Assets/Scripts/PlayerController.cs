@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,8 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int curHp;
     [SerializeField] int damage;
 
-    private Animator animator;
-
+    private AudioSource audioSource;
     private GameObject gfx;
     private GameObject body;
     private GameObject face;
@@ -23,7 +23,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+
         curHp = maxHp;
     }
 
@@ -86,8 +87,10 @@ public class PlayerController : MonoBehaviour
         Collider2D collider = Physics2D.OverlapCircle(transform.position + movement, 0.2f);
         if (collider != null)
         {
+            GameObject target = collider.gameObject;
+
             // Interaction
-            collider.gameObject.GetComponent<IInteractor>().Interaction();
+            target.GetComponent<IInteractor>().Interaction();
         }
         // Empty tile
         else
@@ -127,6 +130,13 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.position = targetPos;
+    }
+
+    public void Attack(Monster target)
+    {
+        audioSource.Play();
+
+        target.TakeDamage();
     }
 
     public void TakeDamage(int damage)

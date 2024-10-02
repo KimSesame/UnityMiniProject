@@ -18,6 +18,10 @@ public abstract class Monster : MonoBehaviour, IBeatListener, IInteractor, IComp
     protected float cellSize;
     protected int cnt;
 
+    protected AudioSource audioSource;
+    protected SpriteRenderer vfx;
+    protected float effectTime;
+
     private void Start()
     {
         contatiner = GameManager.Instance.monsters;
@@ -28,13 +32,12 @@ public abstract class Monster : MonoBehaviour, IBeatListener, IInteractor, IComp
         cnt = 0;
     }
 
-    private void OnDestroy()
-    {
-        contatiner[GameManager.Instance.bufferIdx].RemoveAt(contatiner[GameManager.Instance.bufferIdx].FindIndex(this));
-    }
-
     public abstract void OnBeat();
-    public void Interaction() => TakeDamage();
+
+    public void Interaction()
+    {
+        takeDamageCoroutine = StartCoroutine(TakeDamageRoutine());
+    }
 
     public int CompareTo(Monster other)
     {
@@ -72,13 +75,25 @@ public abstract class Monster : MonoBehaviour, IBeatListener, IInteractor, IComp
         }
     }
 
-    private void TakeDamage()
+    public void TakeDamage()
     {
         hp -= target.GetComponent<PlayerController>().Damage;
         if (hp <= 0)
         {
             Die();
         }
+    }
+
+    protected Coroutine takeDamageCoroutine;
+    IEnumerator TakeDamageRoutine()
+    {
+        // Effects
+        vfx.gameObject.SetActive(true);
+        audioSource.Play();
+        yield return new WaitForSeconds(effectTime);
+        vfx.gameObject.SetActive(false);
+
+        target.GetComponent<PlayerController>().Attack(this);
     }
 
     private void Die()

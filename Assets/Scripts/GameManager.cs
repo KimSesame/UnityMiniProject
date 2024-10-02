@@ -12,9 +12,9 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
-    public int coin;
 
     public Grid map;
+    public CoinModel coinModel;
     public AudioSource audioSource;
     public AudioClip[] bgms;
     public int[] bpms;
@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
         beatInterval = 60f / bpm;
 
         timer = beatInterval;
-        coin = 0;
+        coinModel.Coin = 0;
     }
 
     private void AlarmBeat()

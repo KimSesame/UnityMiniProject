@@ -29,7 +29,7 @@ public class Coin : MonoBehaviour
         coinUpCoroutine = StartCoroutine(CoinUpRoutine());
     }
 
-    private void CoinUp() => GameManager.Instance.coin += amount;
+    private void CoinUp() => GameManager.Instance.coinModel.Coin += amount;
 
     Coroutine coinUpCoroutine;
     IEnumerator CoinUpRoutine()

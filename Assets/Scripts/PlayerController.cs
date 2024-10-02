@@ -12,8 +12,7 @@ public class PlayerController : MonoBehaviour
         Hit, Die, SIZE
     }
 
-    [SerializeField] int maxHp = 10;
-    [SerializeField] int curHp;
+    [SerializeField] HpModel hpModel;
     [SerializeField] int damage;
     [SerializeField] LayerMask layerMask;
     [SerializeField] AudioClip[] sfxs;
@@ -36,7 +35,6 @@ public class PlayerController : MonoBehaviour
         vfx = transform.GetChild(1).GetComponent<SpriteRenderer>();
 
         effectTime = 0.2f;
-        curHp = maxHp;
     }
 
     private void Start()
@@ -162,8 +160,8 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(effectTime);
         vfx.gameObject.SetActive(false);
 
-        curHp -= damage;
-        if (curHp <= 0)
+        hpModel.Hp -= damage;
+        if (hpModel.Hp <= 0)
         {
             Die();
         }

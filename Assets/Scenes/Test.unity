@@ -294,8 +294,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 294857944}
+  - component: {fileID: 294857945}
   m_Layer: 5
-  m_Name: HP Area
+  m_Name: HP View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -323,6 +324,23 @@ RectTransform:
   m_AnchoredPosition: {x: -60, y: 0}
   m_SizeDelta: {x: 50, y: 24}
   m_Pivot: {x: 1, y: 1}
+--- !u!114 &294857945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294857943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45256123465ea6e488084c88bae0e953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  model: {fileID: 324356945}
+  spriteHearts:
+  - {fileID: -748277702, guid: 66aa705238b0c064985f427dd90ec048, type: 3}
+  - {fileID: -494148173, guid: 66aa705238b0c064985f427dd90ec048, type: 3}
+  - {fileID: 1758795485, guid: 66aa705238b0c064985f427dd90ec048, type: 3}
 --- !u!1 &324356938
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,6 +351,7 @@ GameObject:
   m_Component:
   - component: {fileID: 324356939}
   - component: {fileID: 324356940}
+  - component: {fileID: 324356945}
   - component: {fileID: 324356941}
   - component: {fileID: 324356943}
   - component: {fileID: 324356942}
@@ -373,8 +392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c3788b75b78f0942be325319869ed9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 4
-  curHp: 0
+  hpModel: {fileID: 324356945}
   damage: 1
   layerMask:
     serializedVersion: 2
@@ -546,6 +564,35 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &324356945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324356938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d87bdc67d6d71f243bda03ba08929660, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHpChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 294857945}
+        m_TargetAssemblyTypeName: HpView, Assembly-CSharp
+        m_MethodName: UpdateHp
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  maxHp: 4
+  hp: 0
 --- !u!1 &491179862
 GameObject:
   m_ObjectHideFlags: 0
